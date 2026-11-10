@@ -20924,21 +20924,19 @@
     transform: scale(1.0695);
 }
 
-/* ==== mascot_ v2 (Arlo walking strip, components/mascot.html, js/mascot-v2.js) — STAGING, lead merges into
-   project.css, REPLACING the mascot_ block merged there on 2026-11-10 (the one with .arlo_line.mascot_bubble and
-   .mascot_actions: those parts no longer exist). Layout and motion only; colour and type come from tokens and
-   cecf1_ (the bubbles are plain cecf1_ buttons; position, appearance and drift are on the mascot_bubble wrappers). ==== */
+/* ==== mascot_ v3 (Arlo on his own: components/mascot-v3.html, js/mascot-v3.js) — STAGING, lead merges into
+   project.css, REPLACING the mascot_ block there (v2). Layout only; colour from tokens. No buttons, no bubbles. ==== */
 .mascot_root {
     --mascot-w: calc(var(--_spacing---section--xl) * 1.4);
     position: relative;
     width: 100%;
     color: var(--_palette---core--seed);
 }
-/* the strip: Arlo walks along its bottom edge; tall enough for the bubbles over his head */
+/* the strip: Arlo walks along its bottom edge; the jump needs the room above him */
 .mascot_track {
     position: relative;
     width: 100%;
-    height: calc(var(--mascot-w) * 1.42 + var(--_spacing---step--3));
+    height: calc(var(--mascot-w) * 0.92 + var(--_spacing---step--3));
     overflow-x: hidden;
     overflow-y: hidden;
 }
@@ -20947,48 +20945,17 @@
     left: 0;
     bottom: 0;
     width: var(--mascot-w);
-    aspect-ratio: 827 / 617;
+    aspect-ratio: 905 / 676;
     will-change: transform;
-}
-.mascot_hit {
-    display: block;
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
-    margin-left: 0;
-    padding-top: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-left: 0;
-    border-top-width: 0;
-    border-right-width: 0;
-    border-bottom-width: 0;
-    border-left-width: 0;
-    background-color: transparent;
-    color: inherit;
-    cursor: pointer;
-}
-.mascot_hit:focus-visible {
-    outline-style: solid;
-    outline-width: 2px;
-    outline-color: var(--_theme---border--accent);
-    outline-offset: 2px;
-    border-top-left-radius: var(--_radius---card);
-    border-top-right-radius: var(--_radius---card);
-    border-bottom-left-radius: var(--_radius---card);
-    border-bottom-right-radius: var(--_radius---card);
+    cursor: default;
 }
 .mascot_stage {
     display: block;
     position: relative;
     width: 100%;
     height: 100%;
-    pointer-events: none;
 }
-/* the clips and the shadow share one viewBox and sit on top of each other */
+/* the clips and the puddles share one viewBox and sit on top of each other */
 .mascot_svg {
     display: block;
     position: absolute;
@@ -20996,81 +20963,22 @@
     left: 0;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 }
-.mascot_shadow {
+.mascot_puddles {
     display: block;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-}
-/* bubbles: five small buttons scattered over his head, each its own floating target */
-.mascot_bubbles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     pointer-events: none;
-}
-.mascot_bubble {
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translate(0, 0);
-    will-change: transform;
-    pointer-events: none;
-    transition-property: opacity, visibility;
-    transition-duration: var(--_motion---duration-base);
-    transition-timing-function: var(--_motion---ease-standard);
-    transition-delay: 0s;
-}
-.mascot_bubble.is-open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-.mascot_bubble_float {
-    display: block;
-    transform: translateY(var(--_spacing---step--2)) scale(0.94);
-    transition-property: transform;
-    transition-duration: var(--_motion---duration-slow);
-    transition-timing-function: var(--_motion---ease-decelerate);
-}
-.mascot_bubble_float.is-open {
-    transform: translateY(0) scale(1);
-}
-/* gentle drift once open; the five bubbles breathe out of phase */
-.mascot_bubble_float.is-open.is-b1 { animation-name: mascot-drift; animation-duration: 4.6s; animation-delay: 0.5s; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-direction: alternate; }
-.mascot_bubble_float.is-open.is-b2 { animation-name: mascot-drift; animation-duration: 5.3s; animation-delay: 0.9s; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-direction: alternate; }
-.mascot_bubble_float.is-open.is-b3 { animation-name: mascot-drift; animation-duration: 6.1s; animation-delay: 0.6s; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-direction: alternate; }
-.mascot_bubble_float.is-open.is-b4 { animation-name: mascot-drift; animation-duration: 5.0s; animation-delay: 1.1s; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-direction: alternate; }
-.mascot_bubble_float.is-open.is-b5 { animation-name: mascot-drift; animation-duration: 5.7s; animation-delay: 0.3s; animation-timing-function: ease-in-out; animation-iteration-count: infinite; animation-direction: alternate; }
-@keyframes mascot-drift {
-    from { transform: translateY(0) scale(1); }
-    to { transform: translateY(calc(var(--_spacing---step--2) * -1)) scale(1); }
 }
 
 @media (max-width: 767px) {
     .mascot_root {
         --mascot-w: var(--_spacing---section--xl);
     }
-    /* phones: the bubbles sit in two rows above him, so the strip is taller */
-    .mascot_track {
-        height: calc(var(--mascot-w) * 1.95 + var(--_spacing---step--3));
-    }
-}
-
-/* reduced motion (the script adds is-still to every float): no pop, no drift */
-.mascot_bubble_float.is-still {
-    transform: translateY(0) scale(1);
-    transition-duration: 0s;
-}
-.mascot_bubble_float.is-open.is-still {
-    animation-name: none;
 }
 
 /* ==== touch targets, lead 2026-11-10: the three shared buttons and the c8a8e field reach the 44px target on phones (were 38-43px);
