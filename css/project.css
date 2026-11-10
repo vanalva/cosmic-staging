@@ -20165,6 +20165,14 @@
     column-gap: var(--_spacing---step--7);
     row-gap: var(--_spacing---step--6);
 }
+/* the left column (lead, 2026-11-10): heading + intro + day/time picker, so the heading tops out level with the
+   details panel on the right instead of spanning above both */
+.booking_side {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--_spacing---step--6);
+    min-width: 0;
+}
 .booking_fields {
     display: flex;
     flex-direction: column;

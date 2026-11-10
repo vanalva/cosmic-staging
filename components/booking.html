@@ -17,14 +17,15 @@
 <!-- component:start -->
 <!-- booking-block:start (Contact-ready: heading + booking_ + contact details; js/booking.js submits it) -->
 <section class="site-band" id="book" tabindex="-1" aria-labelledby="book-title" data-booking-block>
-  <div class="site-head">
-    <p class="f-text-tiny f-text-bold f-text-italic f-text-uppercase site-eyebrow">Walkthrough</p>
-    <h2 class="f-text-h2 f-text-black f-text-uppercase site-title" id="book-title">Book a walkthrough</h2>
-    <!-- demo: draft copy -->
-    <p class="f-text-body site-intro" data-demo>Pick a day and a time. We come see the place, measure and talk the work through before we price it.</p>
-  </div>
   <form class="booking_form" method="post" novalidate data-booking-form data-endpoint="" aria-labelledby="book-title">
     <div class="booking_layout">
+      <div class="booking_side">
+      <div class="site-head">
+        <p class="f-text-tiny f-text-bold f-text-italic f-text-uppercase site-eyebrow">Walkthrough</p>
+        <h2 class="f-text-h2 f-text-black f-text-uppercase site-title" id="book-title">Book a walkthrough</h2>
+        <!-- demo: draft copy -->
+        <p class="f-text-body site-intro" data-demo>Pick a day and a time. We come see the place, measure and talk the work through before we price it.</p>
+      </div>
       <!-- booking:start (booking_: js/booking.js + js/booking-config.js; note notes/components/booking.md) -->
       <div class="booking_root" data-booking>
         <div class="booking_head">
@@ -71,6 +72,7 @@
         <input type="hidden" name="visit_timezone" data-booking-field="timezone">
       </div>
       <!-- booking:end -->
+      </div>
       <div class="site-panel" role="group" aria-labelledby="book-details-title">
         <h3 class="f-text-h5 f-text-black f-text-uppercase site-panel_title" id="book-details-title">Your details</h3>
         <div class="booking_fields">
