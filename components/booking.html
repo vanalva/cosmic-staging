@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive" data-flowriter-staging>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Component: booking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap">
+<link rel="stylesheet" href="../css/framework.css">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/project.css">
+</head>
+<body>
+<div class="f-mode-light f-page" data-flwr>
+<!-- component:start -->
+<!-- booking-block:start (Contact-ready: heading + booking_ + contact details; js/booking.js submits it) -->
+<section class="site-band" id="book" tabindex="-1" aria-labelledby="book-title" data-booking-block>
+  <div class="site-head">
+    <p class="f-text-tiny f-text-bold f-text-italic f-text-uppercase site-eyebrow">Walkthrough</p>
+    <h2 class="f-text-h2 f-text-black f-text-uppercase site-title" id="book-title">Book a walkthrough</h2>
+    <!-- demo: draft copy -->
+    <p class="f-text-body site-intro" data-demo>Pick a day and a time. We come see the place, measure and talk the work through before we price it.</p>
+  </div>
+  <form class="booking_form" method="post" novalidate data-booking-form data-endpoint="" aria-labelledby="book-title">
+    <div class="booking_layout">
+      <!-- booking:start (booking_: js/booking.js + js/booking-config.js; note notes/components/booking.md) -->
+      <div class="booking_root" data-booking>
+        <div class="booking_head">
+          <p class="f-text-micro f-text-bold f-text-uppercase booking_label" id="book-day-label">Pick a day</p>
+          <div class="booking_nav">
+            <button type="button" class="flwr_button_primary cecf1_root" data-flwr-trigger="hover focus" aria-controls="book-days" data-booking-prev><span class="f-text-body cecf1_label" data-flwr-target="label">Earlier</span></button>
+            <button type="button" class="flwr_button_primary cecf1_root" data-flwr-trigger="hover focus" aria-controls="book-days" data-booking-next><span class="f-text-body cecf1_label" data-flwr-target="label">Later</span></button>
+          </div>
+        </div>
+        <div class="booking_days" id="book-days" role="radiogroup" aria-labelledby="book-day-label" data-booking-days>
+          <!-- sample day: booking.js clones it for each of the next working days -->
+          <div class="booking_day" data-booking-day>
+            <label class="choice_card is-text">
+              <input class="f-sr-only choice_input" type="radio" name="visit_day" value="">
+              <span class="f-text-micro f-text-bold f-text-uppercase booking_dow" data-booking-dow>Tue</span>
+              <span class="f-text-h3 f-text-black choice_label" data-booking-date>17</span>
+              <span class="f-text-micro choice_meta" data-booking-meta>Nov</span>
+            </label>
+          </div>
+        </div>
+        <div class="booking_times" data-booking-times>
+          <div class="booking_head">
+            <p class="f-text-micro f-text-bold f-text-uppercase booking_label" id="book-time-label">Pick a time</p>
+            <p class="f-text-small booking_zone" data-booking-zone>Austin time (CT) &middot; 45-minute visit</p>
+          </div>
+          <div class="choice_grid" role="radiogroup" aria-label="Free times" data-booking-slots>
+            <!-- sample time: booking.js clones it for each free time of the chosen day -->
+            <label class="choice_card is-text" data-booking-slot>
+              <input class="f-sr-only choice_input" type="radio" name="visit_time" value="">
+              <span class="f-text-small f-text-medium choice_label" data-booking-time>9:00 AM</span>
+              <span class="f-text-micro choice_meta" data-booking-until>to 9:45 AM</span>
+            </label>
+          </div>
+        </div>
+        <p class="booking_pick is-hidden" data-booking-pick>
+          <span class="f-text-body f-text-medium booking_pick_text" aria-live="polite" data-booking-pick-text></span>
+          <button type="button" class="f-text-small booking_clear" data-booking-clear>Clear time</button>
+        </p>
+        <!-- demo: the note says the times are samples while js/booking-config.js has demo: true -->
+        <p class="f-text-small booking_note is-hidden" role="status" data-booking-note></p>
+        <input type="hidden" name="visit_start" data-booking-field="start">
+        <input type="hidden" name="visit_end" data-booking-field="end">
+        <input type="hidden" name="visit_when" data-booking-field="when">
+        <input type="hidden" name="visit_timezone" data-booking-field="timezone">
+      </div>
+      <!-- booking:end -->
+      <div class="site-panel" role="group" aria-labelledby="book-details-title">
+        <h3 class="f-text-h5 f-text-black f-text-uppercase site-panel_title" id="book-details-title">Your details</h3>
+        <div class="booking_fields">
+          <div class="calc_field">
+            <label class="f-text-small f-text-medium calc_label" for="book-name">Name</label>
+            <div class="flwr_field_wrap f-border-2 c8a8e_root"><input class="flwr_field_text f-text-body c8a8e_input" id="book-name" type="text" name="name" autocomplete="name" required></div>
+          </div>
+          <div class="calc_field">
+            <label class="f-text-small f-text-medium calc_label" for="book-email">Email</label>
+            <div class="flwr_field_wrap f-border-2 c8a8e_root"><input class="flwr_field_text f-text-body c8a8e_input" id="book-email" type="email" name="email" autocomplete="email" required></div>
+          </div>
+          <div class="calc_field">
+            <label class="f-text-small f-text-medium calc_label" for="book-phone">Phone <span class="estimate_optional">(optional)</span></label>
+            <div class="flwr_field_wrap f-border-2 c8a8e_root"><input class="flwr_field_text f-text-body c8a8e_input" id="book-phone" type="tel" name="phone" autocomplete="tel"></div>
+          </div>
+          <div class="calc_field">
+            <label class="f-text-small f-text-medium calc_label" for="book-address">Address for the visit</label>
+            <div class="flwr_field_wrap f-border-2 c8a8e_root"><input class="flwr_field_text f-text-body c8a8e_input" id="book-address" type="text" name="address" autocomplete="street-address" required></div>
+          </div>
+        </div>
+        <label class="f-text-small check_item is-boxed">
+          <input class="f-sr-only check_input" type="checkbox" name="privacy" value="yes" required>
+          <span class="check_box"><svg class="check_mark" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4.5 12.5l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="check_label">I agree to the privacy policy.</span>
+        </label>
+        <div class="site-actions">
+          <button type="submit" class="flwr_button_primary c1c31_root is-brand" data-flwr-trigger="hover focus" data-booking-submit><span class="f-text-h6 c1c31_label" data-flwr-target="label" data-booking-submit-label>Book walkthrough</span></button>
+        </div>
+        <p class="f-text-small booking_hint" aria-live="polite" data-booking-hint></p>
+      </div>
+    </div>
+  </form>
+  <div class="booking_done is-hidden" role="status" data-booking-done>
+    <h3 class="f-text-h3 f-text-black f-text-uppercase booking_done_title" tabindex="-1" data-booking-done-title>You&rsquo;re booked.</h3>
+    <!-- demo: draft copy -->
+    <p class="f-text-body booking_confirm_text" data-demo>We&rsquo;ll see you then. Add it to your calendar so it doesn&rsquo;t slip.</p>
+    <div class="booking_confirm is-hidden" data-booking-confirm>
+      <p class="f-text-micro f-text-bold f-text-uppercase booking_confirm_text">Your walkthrough</p>
+      <p class="f-text-h5 f-text-black f-text-uppercase booking_confirm_text" data-booking-when>Tuesday, November 17</p>
+      <p class="f-text-body booking_confirm_text" data-booking-time>10:00&ndash;10:45 AM, Austin time (CT)</p>
+      <p class="f-text-small booking_confirm_text" data-booking-where>1100 Congress Ave, Austin, TX</p>
+      <div class="booking_actions">
+        <a class="flwr_button_primary c1c31_root" href="https://calendar.google.com/calendar/render" target="_blank" rel="noopener" data-flwr-trigger="hover focus" data-booking-google><span class="f-text-h6 c1c31_label" data-flwr-target="label">Add to Google Calendar</span><span class="f-sr-only"> (opens in a new tab)</span></a>
+        <button type="button" class="flwr_button_primary c1c31_root" data-flwr-trigger="hover focus" data-booking-ics><span class="f-text-h6 c1c31_label" data-flwr-target="label">Add to Apple / Outlook</span></button>
+      </div>
+    </div>
+    <div class="site-sample" role="note" data-demo>
+      <span class="site-sample_icon"><svg class="site-sample_art" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 97.11 89.55"><path fill="currentColor" d="M19.50 70.42C19.50 67.67 17.27 65.43 14.51 65.43C11.76 65.43 9.53 67.67 9.53 70.42C9.53 73.17 11.76 75.41 14.51 75.41C17.27 75.41 19.50 73.17 19.50 70.42M19.86 83.65L2.97 81.54C2.01 80.43 0.79 77.49 1.02 75.96L11.60 4.79C11.82 3.31 14.26 1.00 15.70 1.00L34.72 1.00C35.73 1.00 37.63 1.80 38.18 2.48C38.72 3.16 39.09 5.27 38.89 6.35L26.15 78.88C25.56 82.22 23.19 84.06 19.86 83.65"/><path fill="currentColor" d="M92.29 51.69L34.25 79.51L67.79 46.03L84.53 29.52L93.71 45.81C94.83 47.80 94.49 50.63 92.29 51.69"/><path fill="currentColor" d="M80.14 29.17L53.66 55.65L31.96 77.92L52.42 37.27L65.45 12.40L79.93 23.49C81.26 24.51 81.61 27.70 80.14 29.17"/><path fill="currentColor" d="M61.56 13.61L52.87 30.38L30.34 74.89L43.14 2.65L59.62 9.25C60.75 9.70 62.19 12.39 61.56 13.61"/><path fill="currentColor" d="M14.16 86.87L23.37 86.58C25.77 86.50 28.04 82.86 28.51 80.72L30.94 81.86C31.42 82.09 30.72 82.94 29.95 84.37L44.02 78.06L59.53 70.87L95.31 54.30C96.54 61.00 96.49 70.65 94.25 76.04L28.24 85.76C25.65 88.28 22.55 89.07 19.28 88.23L14.16 86.87"/></svg></span>
+      <p class="f-text-small site-sample_text"><span class="f-text-micro f-text-bold f-text-uppercase site-sample_title">Sample booking</span> In this preview the free times are made up and nothing is booked or sent. Cosmic will connect its real calendar.</p>
+    </div>
+    <div class="site-actions"><button type="button" class="flwr_button_primary cecf1_root" data-flwr-trigger="hover focus" data-booking-again><span class="f-text-body cecf1_label" data-flwr-target="label">Book another time</span></button></div>
+  </div>
+</section>
+<!-- booking-block:end -->
+<!-- component:end -->
+</div>
+<script src="../assets/runtime.js" defer></script>
+<script src="../js/controls.js" defer></script>
+<script src="../js/booking-config.js" defer></script>
+<script src="../js/booking.js" defer></script>
+</body>
+</html>

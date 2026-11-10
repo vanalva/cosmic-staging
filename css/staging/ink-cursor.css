@@ -1,0 +1,43 @@
+/* ---- component: ink-cursor (living-ink cursor v2, js/ink-cursor.js) ----
+   The script creates two small <canvas class="ink-cursor_canvas"> that travel with the pointer and draws the ink
+   with WebGL. It sets their position, size, transform, z-index and blend mode itself, so the cursor ships as one
+   custom-code embed with no CSS. The rules below are embed-only guards (non-breakpoint media queries on a
+   generated node), optional. */
+
+/* demo page only (components/ink-cursor.html): sizes the sample illustration and the two opt-in/out blocks.
+   Not part of the cursor; do not merge into project.css. */
+.ink-demo_art {
+  width: var(--_spacing---container--xs);
+  max-width: 100%;
+  height: auto;
+}
+.ink-demo_note {
+  width: var(--_spacing---container--xs);
+  padding-top: var(--_spacing---step--5);
+  padding-right: var(--_spacing---step--5);
+  padding-bottom: var(--_spacing---step--5);
+  padding-left: var(--_spacing---step--5);
+  border-top-left-radius: var(--_radius---card);
+  border-top-right-radius: var(--_radius---card);
+  border-bottom-left-radius: var(--_radius---card);
+  border-bottom-right-radius: var(--_radius---card);
+  background-color: var(--_theme---surface--sunken);
+}
+
+/* embed-only */
+.ink-cursor_canvas {
+  pointer-events: none;
+}
+
+/* the script never starts under these conditions; this is a second guard if it was started before a change */
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .ink-cursor_canvas {
+    display: none;
+  }
+}
+
+@media print {
+  .ink-cursor_canvas {
+    display: none;
+  }
+}

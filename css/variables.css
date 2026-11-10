@@ -1,0 +1,117 @@
+/* brand-preview.css: a PREVIEW of the brand proposals from the vector converter.
+   Nothing here is accepted until Juan accepts the proposals in the Brand Lab (see brand/proposals/2026-10-21T214504-vector-converter.json).
+   After that, brand.json drives variables.css and this file can be deleted. Colours named here are
+   still "found" in brand.json. */
+/* brand:begin · generated from brand/brand.json by plugin/scripts/brand (schema 2, flwr 1.7.0-alpha, block f94d8a37b353959a). Edit brand.json, not this block. */
+:root {
+  --_typography---viewport-min: 20;
+  --_typography---viewport-max: 90;
+
+  --_palette---core--seed: #362cff;
+
+  --_palette---neutral--0: #ece9e0;
+  --_palette---neutral--900: #171726;
+
+  --_typography---family--sans: "Archivo", sans-serif;
+
+  --_typography---size--micro-from: 1.097;
+  --_typography---size--micro-to: 1.337;
+  --_typography---size--micro-ceil: 1.337;
+  --_typography---size--small-from: 1.333;
+  --_typography---size--small-to: 1.688;
+  --_typography---size--small-ceil: 1.688;
+  --_typography---size--tiny-from: 1.509;
+  --_typography---size--tiny-to: 1.973;
+  --_typography---size--tiny-ceil: 1.973;
+  --_typography---size--body-from: 1.597;
+  --_typography---size--body-to: 2.125;
+  --_typography---size--body-ceil: 2.125;
+  --_typography---size--h6-from: 1.714;
+  --_typography---size--h6-to: 2.338;
+  --_typography---size--h6-ceil: 2.338;
+  --_typography---size--lead-from: 1.813;
+  --_typography---size--lead-to: 2.533;
+  --_typography---size--lead-ceil: 2.533;
+  --_typography---size--h5-from: 1.944;
+  --_typography---size--h5-to: 2.812;
+  --_typography---size--h5-ceil: 2.812;
+  --_typography---size--h4-from: 2.046;
+  --_typography---size--h4-to: 3.052;
+  --_typography---size--h4-ceil: 3.052;
+  --_typography---size--h3-from: 2.285;
+  --_typography---size--h3-to: 3.749;
+  --_typography---size--h3-ceil: 3.749;
+  --_typography---size--h2-from: 2.373;
+  --_typography---size--h2-to: 4.099;
+  --_typography---size--h2-ceil: 4.099;
+  --_typography---size--stat-from: 2.483;
+  --_typography---size--stat-to: 4.789;
+  --_typography---size--stat-ceil: 4.789;
+  --_typography---size--h1-from: 2.801;
+  --_typography---size--h1-to: 5.603;
+  --_typography---size--h1-ceil: 5.603;
+  --_typography---size--display-from: 3.604;
+  --_typography---size--display-to: 7.209;
+  --_typography---size--display-ceil: 7.209;
+  --_typography---size--hero-from: 4.777;
+  --_typography---size--hero-to: 9.553;
+  --_typography---size--hero-ceil: 9.553;
+  --_typography---size--giant-from: 5.68;
+  --_typography---size--giant-to: 11.36;
+  --_typography---size--giant-ceil: 11.36;
+  --_typography---size--poster-from: 6.114;
+  --_typography---size--poster-to: 12.228;
+  --_typography---size--poster-ceil: 12.228;
+}
+
+:root,
+[data-flwr].f-mode-light,
+[data-flwr] .f-mode-light {
+  --_theme---text--accent: var(--_palette---core--500);
+}
+/* brand:end */
+
+/* cosmic tokens (2026-11-10, DIY consistency pass): recurring sizes the flwr scale has no token for.
+   Project tokens, named in the flwr pattern; they sit after brand:end so the brand build leaves them alone. */
+:root {
+  /* inline brand icons and glyphs */
+  --_component---icon--2xs: 0.875rem;  /* 14 px: close glyph inside a small button */
+  --_component---icon--xs: 1.25rem;    /* 20 px: clear glyph */
+  --_component---icon--sm: 1.75rem;    /* 28 px: field icon; callout icon on phones */
+  --_component---icon--md: 2.25rem;    /* 36 px: callout icon, location pin, step dot */
+  --_component---icon--lg: 2.75rem;    /* 44 px: list icons on phones, choice icon on phones */
+  --_component---icon--xl: 3.5rem;     /* 56 px: list icons, card icon */
+  --_component---icon--2xl: 4.25rem;   /* 68 px: choice tile icon */
+  --_component---icon--3xl: 5rem;      /* 80 px: tool card icon, widest choice icon */
+  --_component---icon--text: 1em;      /* a glyph that sizes with its line of text (check box, tick, error mark) */
+  --_component---level--mark: 0.6em;   /* one square of the 3-step skill mark */
+  /* the smallest comfortable touch target */
+  --_component---target--min: 2.75rem;
+  /* choice tiles: minimum heights (with icon / text only / phones) */
+  --_component---tile--lg: 11rem;
+  --_component---tile--md: 8.5rem;
+  --_component---tile--sm: 7.5rem;
+  --_component---tile--xs: 6rem;
+  /* textarea minimum height (about five lines) */
+  --_component---field--textarea-min: 12rem;
+  /* brand illustrations and lettering, by display width */
+  --_component---art--xs: 7.5rem;
+  --_component---art--sm: 10rem;
+  --_component---art--md: 13rem;
+  --_component---art--lg: 16rem;
+  --_component---art--xl: 24rem;
+  --_component---art--2xl: 32rem;
+  /* the Cosmic logo outside the navbar (navbar drawn 260 px; 180 px is its phone size) */
+  --_component---logo--md: 11.25rem;
+  --_component---logo--sm: 8.75rem;
+  /* page frame: the drawn header band (1862 px) and Home's widest content (1720 px) */
+  --_spacing---container--band: 116.4rem;
+  --_spacing---container--stage: 107.5rem;
+  /* side gutter of a full-width band: 4.9 % of the page, capped so content never exceeds 112rem */
+  --_spacing---page--gutter: max(4.9%, calc(50% - 56rem));
+  /* press and lift nudges (buttons, cards, tiles) */
+  --_motion---nudge-press: 1px;
+  --_motion---nudge-lift: -2px;
+  /* underlined links */
+  --_typography---underline--offset: 0.18em;
+}

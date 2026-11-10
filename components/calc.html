@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive" data-flowriter-staging>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Component: calc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap">
+<link rel="stylesheet" href="../css/framework.css">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/project.css">
+</head>
+<body>
+<div class="f-mode-light f-page" data-flwr>
+<section class="f-section-md">
+<div class="f-page-margin">
+<!-- component:start -->
+<form class="calc_root" data-calc novalidate aria-label="Paint calculator">
+      <div class="calc_inputs">
+        <fieldset class="calc_group">
+          <legend class="f-text-micro f-text-bold f-text-uppercase calc_legend">What are you painting?</legend>
+          <div class="segmented_root" role="radiogroup" aria-label="What are you painting?"><label class="segmented_option is-selected"><input class="f-sr-only segmented_input" type="radio" name="demo-calc-mode" value="room" checked data-calc-mode><span class="f-text-small f-text-medium segmented_label">A room</span></label><label class="segmented_option"><input class="f-sr-only segmented_input" type="radio" name="demo-calc-mode" value="wall" data-calc-mode><span class="f-text-small f-text-medium segmented_label">One wall</span></label><label class="segmented_option"><input class="f-sr-only segmented_input" type="radio" name="demo-calc-mode" value="area" data-calc-mode><span class="f-text-small f-text-medium segmented_label">Total area</span></label></div>
+        </fieldset>
+        <div class="calc_fields" data-calc-show="room">
+        <div class="calc_field">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-length">Room length (ft)</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-length" name="length" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="12" placeholder="12" aria-describedby="demo-calc-length-err" data-calc-input="length"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-length-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+        </div>
+        <div class="calc_field">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-width">Room width (ft)</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-width" name="width" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="12" placeholder="12" aria-describedby="demo-calc-width-err" data-calc-input="width"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-width-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+        </div>
+        <div class="calc_field">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-height">Wall height (ft)</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-height" name="height" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="8" placeholder="8" aria-describedby="demo-calc-height-err" data-calc-input="height"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-height-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+        </div>
+        </div>
+        <div class="calc_fields" data-calc-show="wall">
+        <div class="calc_field">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-wallw">Wall width (ft)</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-wallw" name="wallw" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="14" placeholder="14" aria-describedby="demo-calc-wallw-err" data-calc-input="wallw"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-wallw-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+        </div>
+        <div class="calc_field">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-wallh">Wall height (ft)</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-wallh" name="wallh" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="8" placeholder="8" aria-describedby="demo-calc-wallh-err" data-calc-input="wallh"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-wallh-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+        </div>
+        </div>
+        <div class="calc_fields" data-calc-show="area">
+        <div class="calc_field is-wide">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-area">Total area (sq ft)</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-area" name="area" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="150" placeholder="150" aria-describedby="demo-calc-area-err demo-calc-area-hint" data-calc-input="area"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-area-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+          <p class="f-text-small calc_hint" id="demo-calc-area-hint">Measure each surface (length &times; height in feet) and add them up.</p>
+        </div>
+        </div>
+        <div class="calc_fields" data-calc-show="room wall">
+        <div class="calc_field">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-doors">Doors</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-doors" name="doors" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" value="1" placeholder="0" aria-describedby="demo-calc-doors-err" data-calc-input="doors"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-doors-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+        </div>
+        <div class="calc_field">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-windows">Windows</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-windows" name="windows" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" value="2" placeholder="0" aria-describedby="demo-calc-windows-err" data-calc-input="windows"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-windows-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+        </div>
+          <p class="f-text-small calc_hint calc_field is-wide">We take off 20 sq ft per door and 15 sq ft per window.</p>
+        </div>
+        <div class="calc_group" data-calc-show="room">
+          <label class="f-text-small check_item">
+            <input class="f-sr-only check_input" type="checkbox" name="demo-calc-ceiling" data-calc-ceiling>
+            <span class="check_box"><svg class="check_mark" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4.5 12.5l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="check_label">Include the ceiling (only if it gets the same paint)</span>
+          </label>
+        </div>
+        <fieldset class="calc_group">
+          <legend class="f-text-micro f-text-bold f-text-uppercase calc_legend">Coats</legend>
+          <div class="segmented_root" role="radiogroup" aria-label="Coats"><label class="segmented_option"><input class="f-sr-only segmented_input" type="radio" name="demo-calc-coats" value="1" data-calc-coats><span class="f-text-small f-text-medium segmented_label">1 coat</span></label><label class="segmented_option is-selected"><input class="f-sr-only segmented_input" type="radio" name="demo-calc-coats" value="2" checked data-calc-coats><span class="f-text-small f-text-medium segmented_label">2 coats</span></label><label class="segmented_option"><input class="f-sr-only segmented_input" type="radio" name="demo-calc-coats" value="3" data-calc-coats><span class="f-text-small f-text-medium segmented_label">3 coats</span></label></div>
+        </fieldset>
+        <div class="calc_fields">
+        <div class="calc_field is-wide">
+          <label class="f-text-small f-text-medium calc_label" for="demo-calc-coverage">Coverage per gallon (sq ft)</label>
+          <div class="flwr_field_wrap f-border-2 c8a8e_root calc_wrap"><input class="flwr_field_text f-text-body c8a8e_input" id="demo-calc-coverage" name="coverage" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" value="350" placeholder="350" aria-describedby="demo-calc-coverage-err demo-calc-coverage-hint" data-calc-input="coverage"></div>
+          <p class="f-text-small calc_error is-hidden" id="demo-calc-coverage-err" data-calc-error><svg class="calc_error_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M12 6.5v7M12 16.8v.2" fill="none" stroke="#ece9e0" stroke-width="2.6" stroke-linecap="round"/></svg><span data-calc-error-text></span></p>
+          <p class="f-text-small calc_hint" id="demo-calc-coverage-hint">Most interior paints cover 250&ndash;400 sq ft per gallon. Use the low end on new drywall, texture or bare wood. Check the can.</p>
+        </div>
+        </div>
+        <div class="calc_actions">
+          <button type="submit" class="flwr_button_primary c1c31_root is-brand" data-flwr-trigger="hover focus"><span class="f-text-h6 c1c31_label" data-flwr-target="label">Calculate</span></button>
+        </div>
+      </div>
+      <div class="calc_result" aria-live="polite" data-calc-result>
+        <p class="f-text-micro f-text-bold f-text-uppercase calc_kicker" data-calc-kicker>You need about</p>
+        <p class="calc_amount"><span class="f-text-display f-text-black calc_value" data-calc-value>2</span><span class="f-text-lead f-text-bold calc_unit" data-calc-unit>gallons</span></p>
+        <p class="f-text-h6 f-text-bold calc_plus is-hidden" data-calc-plus></p>
+        <p class="f-text-small calc_explain" data-calc-explain></p>
+        <p class="f-text-small calc_primer is-hidden" data-calc-primer></p>
+      </div>
+    </form>
+<!-- component:end -->
+</div>
+</section>
+</div>
+<script src="../assets/runtime.js" defer></script>
+<script src="../js/controls.js" defer></script>
+<script src="../js/diy-calc.js" defer></script>
+</body>
+</html>

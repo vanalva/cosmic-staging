@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive" data-flowriter-staging>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Component: consent</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap">
+<link rel="stylesheet" href="../css/framework.css">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/project.css">
+</head>
+<body>
+<div class="f-mode-light f-page" data-flwr>
+<section class="f-section-md">
+<div class="f-page-margin">
+  <p class="f-text-body">Demo: the banner shows at the bottom until a choice is stored.
+    <button type="button" class="flwr_button_primary cecf1_root" data-consent-open data-flwr-trigger="hover focus"><span class="f-text-body cecf1_label" data-flwr-target="label">Cookie settings</span></button>
+    <button type="button" class="flwr_button_primary cecf1_root" onclick="window.cosmicConsent.reset()" data-flwr-trigger="hover focus"><span class="f-text-body cecf1_label" data-flwr-target="label">Forget my choice</span></button>
+  </p>
+</div>
+</section>
+<!-- Place the block below on every page, inside the [data-flwr] wrapper after the footer and before the estimate
+     dialog, and load ../js/consent.js (defer) after controls.js. Copy between the markers only. -->
+<!-- consent:start -->
+<section class="consent_root is-hidden" role="region" aria-labelledby="consent-title" data-consent>
+  <div class="consent_bar" data-consent-bar>
+    <div class="consent_copy">
+      <h2 class="f-text-micro f-text-bold f-text-uppercase consent_title" id="consent-title" tabindex="-1">Your cookie choice</h2>
+      <p class="f-text-small consent_text">Necessary cookies run this site. Analytics and marketing wait for your OK.</p>
+      <div class="consent_more">
+        <a class="f-text-small site-link consent_link" href="legal.html#cookies">How we use cookies</a>
+        <button type="button" class="f-text-small site-link consent_link" aria-expanded="false" aria-controls="consent-prefs" data-consent-prefs-open>Preferences</button>
+      </div>
+    </div>
+    <div class="consent_actions">
+      <button type="button" class="flwr_button_primary cd421_root" data-consent-accept data-flwr-trigger="hover focus"><span class="f-text-tiny cd421_label" data-flwr-target="label">Accept all</span></button>
+      <button type="button" class="flwr_button_primary cd421_root" data-consent-necessary data-flwr-trigger="hover focus"><span class="f-text-tiny cd421_label" data-flwr-target="label">Only necessary</span></button>
+    </div>
+  </div>
+  <form class="consent_prefs is-hidden" id="consent-prefs" aria-labelledby="consent-prefs-title" data-consent-prefs>
+    <div class="consent_prefs_head">
+      <h2 class="f-text-micro f-text-bold f-text-uppercase consent_title" id="consent-prefs-title" tabindex="-1">Cookie preferences</h2>
+      <button type="button" class="search_clear" aria-label="Close cookie preferences" data-consent-close><svg class="search_clear_icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></button>
+    </div>
+    <fieldset class="consent_group">
+      <legend class="f-sr-only">Cookies you allow</legend>
+      <div class="consent_row">
+        <label class="f-text-small check_item is-selected">
+          <input class="f-sr-only check_input" type="checkbox" name="necessary" value="yes" checked disabled aria-describedby="consent-d-necessary">
+          <span class="check_box is-selected"><svg class="check_mark" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4.5 12.5l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="check_label">Necessary</span>
+        </label>
+        <span class="f-text-micro f-text-bold f-text-uppercase diy-guide_tag">Always on</span>
+        <p class="f-text-small consent_desc" id="consent-d-necessary">Keep the site working and remember this choice.</p>
+      </div>
+      <div class="consent_row">
+        <label class="f-text-small check_item">
+          <input class="f-sr-only check_input" type="checkbox" name="analytics" value="yes" aria-describedby="consent-d-analytics" data-consent-analytics>
+          <span class="check_box"><svg class="check_mark" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4.5 12.5l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="check_label">Analytics</span>
+        </label>
+        <p class="f-text-small consent_desc" id="consent-d-analytics">Which pages people visit and where they get stuck, so we can fix it.</p>
+      </div>
+      <div class="consent_row">
+        <label class="f-text-small check_item">
+          <input class="f-sr-only check_input" type="checkbox" name="marketing" value="yes" aria-describedby="consent-d-marketing" data-consent-marketing>
+          <span class="check_box"><svg class="check_mark" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"><path d="M4.5 12.5l5 5 10-11" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="check_label">Marketing</span>
+        </label>
+        <p class="f-text-small consent_desc" id="consent-d-marketing">Measure our ads and show Cosmic ads to past visitors.</p>
+      </div>
+    </fieldset>
+    <div class="consent_actions">
+      <button type="submit" class="flwr_button_primary cd421_root" data-flwr-trigger="hover focus"><span class="f-text-tiny cd421_label" data-flwr-target="label">Save my choices</span></button>
+      <button type="button" class="flwr_button_primary cd421_root" data-consent-accept data-flwr-trigger="hover focus"><span class="f-text-tiny cd421_label" data-flwr-target="label">Accept all</span></button>
+    </div>
+  </form>
+  <p class="f-sr-only" aria-live="polite" data-consent-status></p>
+</section>
+<!-- consent:end -->
+</div>
+<script src="../assets/runtime.js" defer></script>
+<script src="../js/controls.js" defer></script>
+<script src="../js/consent.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive" data-flowriter-staging>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[Cosmic] component: celebrate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,300;0,400;0,500;0,700;0,900;1,300;1,400;1,500;1,700;1,900&display=swap">
+<link rel="stylesheet" href="../css/framework.css">
+<link rel="stylesheet" href="../css/variables.css">
+<link rel="stylesheet" href="../css/project.css">
+</head>
+<body>
+<div class="f-mode-light f-page" data-flwr>
+<!-- credit-earned celebration dialog; open with document.getElementById("club-celebrate").showModal() or js/club-member.js -->
+<div class="club-member_wrap">
+<!-- component:start -->
+<dialog class="celebrate_root" id="club-celebrate" aria-labelledby="celebrate-title" data-club-celebrate>
+  <div class="celebrate_panel" data-club-celebrate-panel>
+    <div class="celebrate_top">
+      <button type="button" class="flwr_button_primary cd421_root is-invert" data-club-celebrate-close><span class="f-text-tiny cd421_label" data-flwr-target="label">Close</span></button>
+    </div>
+    <svg class="celebrate_arlo" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 394.84 209.45"><path fill="currentColor" d="M53.52 51.48C56.02 47.16 55.49 42.64 53.57 38.41C58.78 38.39 62.00 41.23 62.37 44.61C62.78 48.41 59.00 51.89 53.52 51.48M47.79 50.57C44.24 50.74 40.59 48.34 40.76 45.10C40.97 41.07 44.94 38.66 48.65 38.55C47.19 43.37 47.08 46.45 47.79 50.57M391.27 112.71C383.24 110.43 368.81 127.04 342.80 131.45C326.91 134.14 309.53 132.05 296.37 122.39C284.96 114.02 277.81 102.10 268.13 92.16L238.54 61.76C226.59 51.40 214.41 42.41 199.69 36.54C177.62 27.73 154.31 27.23 132.50 36.71C121.44 41.52 113.68 33.58 96.28 40.36C95.01 40.86 92.33 38.40 92.54 37.29C93.28 33.29 114.37 32.27 125.37 19.65C115.63 14.37 106.46 19.17 95.19 21.19C102.04 17.47 106.90 10.72 106.04 1.00C94.57 4.38 84.01 9.15 75.04 16.75L69.75 23.11C52.66 21.40 39.21 29.01 27.32 40.27L5.50 51.67C2.24 53.37 0.48 56.00 1.14 59.71C1.56 62.08 4.14 65.12 7.67 65.58L41.91 70.01C48.66 70.89 67.68 69.20 65.06 78.64C64.40 81.01 62.44 82.22 59.86 82.42L39.04 84.02C30.24 84.69 20.88 88.31 14.01 93.59C10.53 96.27 12.77 102.40 15.40 104.19C23.38 109.61 27.87 100.81 44.64 102.52L59.13 104.00L48.06 112.52C39.27 122.86 29.61 139.04 37.33 142.60C39.72 143.71 43.15 143.64 45.12 141.48L49.97 136.18C57.88 127.52 68.91 122.32 80.62 121.85C80.70 121.84 80.78 121.84 80.86 121.84C98.43 121.15 123.88 110.20 210.10 159.81C228.50 170.40 235.25 166.14 242.44 180.60C251.52 198.86 269.92 215.76 277.47 205.37C280.36 201.39 277.79 194.75 274.76 191.49C268.41 184.67 264.96 177.70 262.16 169.03C259.69 161.36 250.73 157.65 246.24 151.69C243.63 148.21 250.42 144.79 253.75 145.35C262.90 146.90 270.38 150.24 278.44 154.28C346.62 188.52 407.37 117.29 391.27 112.71"/></svg>
+    <p class="f-text-display f-text-black celebrate_amount" data-club-field="amount">+$240</p>
+    <h2 class="f-text-h3 f-text-black f-text-uppercase celebrate_title" id="celebrate-title" tabindex="-1">Credit added.</h2>
+    <p class="f-text-body celebrate_text" data-club-field="text">Your neighbor&rsquo;s project is complete and paid.</p>
+    <p class="f-text-small f-text-bold celebrate_extra is-hidden" data-club-field="extra"><svg class="celebrate_star" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 95.60 98.55"><path fill="currentColor" d="M65.34 82.46L64.44 82.94L66.12 88.37L65.34 82.46M63.59 76.74L62.88 77.19L64.14 82.45L64.83 82.01L63.59 76.74M61.95 71.00L61.24 71.45L62.50 76.71L63.19 76.27L61.95 71.00M61.39 70.54L60.51 64.41L63.72 62.03C62.25 61.92 59.75 62.99 58.95 64.09L60.92 70.98L61.39 70.54M76.08 47.03C73.53 45.94 71.43 45.56 68.66 45.89C71.10 46.66 73.38 47.06 76.08 47.03M52.92 40.56C52.89 36.66 52.14 34.22 50.89 31.54C51.02 34.99 51.79 37.82 52.92 40.56M48.70 22.62L47.71 22.95L49.44 28.11L50.42 27.78L48.70 22.62M44.07 6.19L43.31 6.73L44.94 11.26L44.07 6.19M43.29 5.30C44.81 3.47 48.88 2.22 52.78 1.00L63.32 35.67L94.08 43.35C95.21 43.64 94.35 47.42 93.30 47.92L69.65 59.43L78.33 91.80L69.21 97.55L67.87 91.89L67.27 91.48L67.85 97.53L42.30 72.19L16.13 85.13L25.79 55.42L1.00 30.19L10.75 24.64L33.72 29.53L31.26 36.22L25.99 36.02L31.89 37.49L42.53 6.23L43.29 5.30"/></svg><span data-club-field="extra-text">Your block unlocked a neighborhood perk.</span></p>
+    <div class="celebrate_actions">
+      <button type="button" class="flwr_button_primary c1c31_root" data-flwr-trigger="hover focus" data-club-celebrate-see>
+  <span class="f-text-h6 c1c31_label" data-slot="label" data-flwr-target="label">See your credit</span>
+</button>
+    </div>
+  </div>
+</dialog>
+<!-- component:end -->
+</div>
+</div>
+</body>
+</html>
