@@ -53,7 +53,7 @@
         vb = svg.getAttribute('viewBox').split(/\s+/).map(parseFloat);
         ground = parseFloat(svg.getAttribute('data-ground'));
         arlo.style.aspectRatio = vb[2] + ' / ' + vb[3];
-        makePuddles();
+        if (root.getAttribute('data-mascot-shadows') === 'on') makePuddles(); // off for now (Juan, 2026-11-10)
       }
       var gs = svg.querySelectorAll('svg > g'), frames = [];
       for (var i = 0; i < gs.length; i++) {
