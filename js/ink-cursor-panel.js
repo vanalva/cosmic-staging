@@ -11,7 +11,7 @@
   var ink = window.CosmicInk;
   if (!ink || document.querySelector('.ink-panel')) return;
   var KEY = 'cosmic-ink-panel-v4', PKEY = 'cosmic-ink-presets';
-  var DEF = { size: 0.8, trail: 0.71, stretch: 1.24, goo: 2.15, magnet: 1.95, follow: 1, bounce: 0.8, wobble: 1.5, art: 0.7, traces: 1.85, texture: 0.45, hold: 1 };
+  var DEF = { size: 0.8, trail: 0.71, stretch: 1.24, goo: 2.15, magnet: 1.95, follow: 1, bounce: 0.8, wobble: 1.5, art: 0.7, traces: 1.85, texture: 0.45, hold: 1, dot: 1 };
   var ROWS = [
     ['size', 'Cursor size', 0.4, 2.6, 0.05, 'how big the drop is'],
     ['trail', 'Trail length', 0, 1, 0.01, 'how far the body lags behind'],
@@ -24,6 +24,7 @@
     ['traces', 'Traces', 0, 2.5, 0.05, 'small drops left behind at speed (0 = none)'],
     ['wobble', 'Wobble', 0, 3, 0.05, 'the slow living outline at rest'],
     ['art', 'Shape join', 0, 1.25, 0.05, 'how strongly it rounds into icons, drawings and letters (0 = off)'],
+    ['dot', 'Click dot', 0, 2.5, 0.05, 'size of the dot that shows over anything clickable (0 = none)'],
     ['hold', 'Keep dark colour', 0, 1, 1, 'on = after leaving something dark the ink stays dark until it touches something of its own colour']
   ];
   var saved = {}, presets = {};

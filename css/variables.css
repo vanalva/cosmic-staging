@@ -71,6 +71,32 @@
 }
 /* brand:end */
 
+/* cosmic phone type scale (2026-11-10, mobile pass). Only the PHONE end (-from, at 320 px) of each fluid size
+   changes; -to and -ceil (reached at 1440 px and held above it) are the brand block's, so 1920 and 2560 are
+   unchanged. The brand block set the phone ends at ~1.6x flwr's (body 26 px at 390); these are the brand block's
+   values x ~0.67, rounded to 1/16 rem, so the hierarchy keeps its proportions. tiny keeps its drawn rank (between
+   small and body) at every width rather than swapping places on phones; Q15 stays with Juan. At 390: small 15,
+   tiny 16.5, body 18, lead 20, h2 28.5, h1 34, display 43. Sits after brand:end so a brand
+   rebuild does not revert it; move into brand.json when the brand is next built. */
+:root {
+  --_typography---size--micro-from: 0.75;
+  --_typography---size--tiny-from: 1;
+  --_typography---size--small-from: 0.875;
+  --_typography---size--body-from: 1.0625;
+  --_typography---size--h6-from: 1.125;
+  --_typography---size--lead-from: 1.1875;
+  --_typography---size--h5-from: 1.3125;
+  --_typography---size--h4-from: 1.375;
+  --_typography---size--h3-from: 1.5;
+  --_typography---size--h2-from: 1.625;
+  --_typography---size--stat-from: 1.75;
+  --_typography---size--h1-from: 1.875;
+  --_typography---size--display-from: 2.375;
+  --_typography---size--hero-from: 3.125;
+  --_typography---size--giant-from: 3.5;
+  --_typography---size--poster-from: 4;
+}
+
 /* cosmic tokens (2026-11-10, DIY consistency pass): recurring sizes the flwr scale has no token for.
    Project tokens, named in the flwr pattern; they sit after brand:end so the brand build leaves them alone. */
 :root {

@@ -102,6 +102,21 @@
         parts.forEach(function (e) { e.classList.add('is-wrapped'); });
       }
     });
+    // footer (c7177_, mobile pass 2026-11-10): the one-row footer (logo | links | socials) needs ~1300px; below that on
+    // desktop the logo collapsed to 0 and the socials were clipped off the card (every page, 992-1440). Same answer as
+    // the header: .is-stacked gives it the tablet layout (logo + socials, links on their own row).
+    document.querySelectorAll('.c7177_root').forEach(function (foot) {
+      var parts = [foot].concat([].slice.call(foot.querySelectorAll('.c7177_nav')));
+      parts.forEach(function (e) { e.classList.remove('is-stacked'); });
+      var logo = foot.querySelector('.c7177_logo'), social = foot.querySelector('.c7177_social');
+      if (!mq.matches || !logo || !social) return;
+      // too narrow = the socials run past the padding, or the logo is squeezed below the socials' width (drawn 379 vs 186)
+      var fr = foot.getBoundingClientRect(), pr = parseFloat(getComputedStyle(foot).paddingRight) || 0;
+      var sr = social.getBoundingClientRect();
+      if (sr.right > fr.right - pr + 1 || logo.getBoundingClientRect().width < sr.width) {
+        parts.forEach(function (e) { e.classList.add('is-stacked'); });
+      }
+    });
   }
   var raf = 0;
   function queue() { if (!raf) raf = requestAnimationFrame(function () { raf = 0; fit(); }); }

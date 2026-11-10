@@ -392,6 +392,26 @@
     cur = 0;
     chrome();
   }
+  /* the dialog's logo sits exactly where the header logo (cbd83) sits at the top of the page, at its size, so opening
+     reads as one continuous screen (Juan, 2026-11-10). Measured, not hard-coded: the header's position comes from its
+     tokens and its nav pill, which differ per width. Sets .is-aligned (state) and four lengths on the dialog; without
+     a header the logo keeps its token size in the head's grid. Re-run on resize while open. */
+  var logo = $('.estimate_logo'), logoArt = $('.estimate_logo_art'), head = $('.estimate_head');
+  function alignLogo() {
+    var src = document.querySelector('.cbd83_logo-art');
+    if (!logo || !head || !panel || !src || !src.getBoundingClientRect().width) {
+      [logo, logoArt, head].forEach(function (e) { if (e) e.classList.remove('is-aligned'); });
+      return;
+    }
+    var r = src.getBoundingClientRect(), p = panel.getBoundingClientRect();
+    var top = r.top + (window.scrollY || window.pageYOffset) - p.top;   /* the header's place at scroll 0 */
+    dlg.style.setProperty('--estimate-logo-top', top + 'px');
+    dlg.style.setProperty('--estimate-logo-left', (r.left - p.left) + 'px');
+    dlg.style.setProperty('--estimate-logo-width', r.width + 'px');
+    dlg.style.setProperty('--estimate-logo-bottom', (top + r.height) + 'px');
+    [logo, logoArt, head].forEach(function (e) { if (e) e.classList.add('is-aligned'); });
+  }
+  window.addEventListener('resize', function () { if (dlg.open) alignLogo(); }, { passive: true });
   function open(trigger, email) {
     if (sent) reset();
     opener = trigger || null;
@@ -408,6 +428,7 @@
     }
     if (!dlg.open) dlg.showModal();
     document.body.style.overflow = 'hidden';
+    alignLogo();
     chrome();
     var t = $('.estimate_title', steps[cur]);
     t && t.focus({ preventScroll: true });

@@ -31,7 +31,7 @@
 
   // ------------------------------------------------------------------ options
   // defaults = the values Juan tuned on the demo panel, 2026-11-10
-  const O = { hold: 1, underline: 0, size: 0.8, trail: 0.71, stretch: 1.24, goo: 2.15, wobble: 1.5, follow: 1, bounce: 0.8, magnet: 1.95, art: 0.7, traces: 1.85, texture: 0.45, textTint: 1 };
+  const O = { dot: 1, hold: 1, underline: 0, size: 0.8, trail: 0.71, stretch: 1.24, goo: 2.15, wobble: 1.5, follow: 1, bounce: 0.8, magnet: 1.95, art: 0.7, traces: 1.85, texture: 0.45, textTint: 1 };
   (function () {
     const src = window.CosmicInkOptions || {};
     Object.keys(O).forEach(function (k) {
@@ -156,6 +156,8 @@
     'uniform sampler2D uT0;','uniform sampler2D uT1;','uniform sampler2D uT2;','uniform sampler2D uT3;',
     'uniform vec4 uAR[4];',         // shape field rect x0 y0 x1 y1
     'uniform vec4 uAC[4];',         // - - - k
+    'uniform vec4 uDotP;',          // click dot: x y r -
+    'uniform vec4 uDotC;',          // click dot: rgb, alpha
     'uniform vec4 uLead;',          // the nose, exactly under the pointer: x y r k
     'float artD(sampler2D t,vec4 r,vec2 p){vec2 uv=(p-r.xy)/(r.zw-r.xy);',
     ' if(uv.x<0.0||uv.y<0.0||uv.x>1.0||uv.y>1.0)return 1000.0;return (0.5-texture2D(t,uv).r)*2.0*uTint.z;}',
@@ -223,7 +225,9 @@
     // behind-text pixels: the blend layer paints them in full, the normal layer fades out over them (no ground leaks in the feather)
     ' float mt=1.0-abs(pol-uPass.y);',
     ' float o=uPass.x<0.5?a*(1.0-m*mt):a*step(0.004,m)*mt;',
-    ' gl_FragColor=vec4(col*o,o);',
+    ' vec4 outc=vec4(col*o,o);',
+    ' if(uPass.x<0.5&&uDotP.z>0.3){float da=clamp(0.5-(length(p-uDotP.xy)-uDotP.z)*dpr,0.0,1.0)*uDotC.a;outc=outc*(1.0-da)+vec4(uDotC.rgb*da,da);}',
+    ' gl_FragColor=outc;',
     '}'
   ].join('\n');
 
@@ -237,6 +241,8 @@
   let lastS = 0, lastM = [], lastInk = [0, 0, 0], heldTint = null;
   const dpx = new Float32Array(MAXD), dpy = new Float32Array(MAXD), dvx = new Float32Array(MAXD), dvy = new Float32Array(MAXD);
   const dR = new Float32Array(MAXD), dAge = new Float32Array(MAXD).fill(1), dLife = new Float32Array(MAXD), bufD = new Float32Array(MAXD * 4);
+  let clickable = false, dotA = 0, dotV = 0, dotBusy = false;
+  const dotC = [1, 1, 1];
   let elongV = 0, tintA = 0, liveArts = [], artTimer = 0;
   const tintC = [0, 0, 0];
   const bufAR = new Float32Array(16), bufAC = new Float32Array(16);
@@ -251,7 +257,7 @@
   let byEl = new WeakMap();
   let scopeSet = new WeakSet(), curScope = null, ptScope = null, viewGen = 0, viewKey = '', viewCache = null;
   let dirty = true, idleId = 0, measureTimer = 0, scrollTimer = 0, lastBuild = 0;
-  let mo = null, ro = null, styleEl = null, lateBuild = 0;
+  let mo = null, ro = null, styleEl = null, lateBuild = 0, away = false;
   const stats = { frames: 0, cpu: [], build: 0, measure: 0, gpu: '' };
 
   const bufN = new Float32Array(MAXN * 4), bufSA = new Float32Array(MAXS * 4), bufSB = new Float32Array(MAXS * 4);
@@ -690,7 +696,7 @@
   }
 
   // ------------------------------------------------------------------ GL (two small canvases that travel with the ink)
-  const UNI = ['uLead', 'uDrop', 'uT0', 'uT1', 'uT2', 'uT3', 'uAR', 'uAC', 'uInkT', 'uView', 'uHead', 'uHeadX', 'uHug', 'uNode', 'uSA', 'uSB', 'uSC', 'uSD', 'uSE', 'uM', 'uG', 'uGC', 'uBase', 'uPar', 'uCount', 'uPass', 'uTint'];
+  const UNI = ['uDotP', 'uDotC', 'uLead', 'uDrop', 'uT0', 'uT1', 'uT2', 'uT3', 'uAR', 'uAC', 'uInkT', 'uView', 'uHead', 'uHeadX', 'uHug', 'uNode', 'uSA', 'uSB', 'uSC', 'uSD', 'uSE', 'uM', 'uG', 'uGC', 'uBase', 'uPar', 'uCount', 'uPass', 'uTint'];
   function initGL(L) {
     const opts = { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false, preserveDrawingBuffer: false, powerPreference: 'low-power' };
     const gl = L.canvas.getContext('webgl', opts) || L.canvas.getContext('experimental-webgl', opts);
@@ -739,10 +745,33 @@
     s.pointerEvents = 'none'; s.zIndex = blend ? '2147483000' : '2147483001';
     s.willChange = 'transform';
     doc.body.appendChild(canvas);
-    const L = { canvas: canvas, gl: null, U: null, dirty: true, blend: blend };
+    let top = false;
+    if (typeof canvas.showPopover === 'function') {
+      try {
+        canvas.setAttribute('popover', 'manual');
+        s.margin = '0'; s.borderWidth = '0'; s.padding = '0'; s.background = 'transparent'; s.right = 'auto'; s.bottom = 'auto'; s.overflow = 'visible'; s.maxWidth = 'none'; s.maxHeight = 'none';
+        canvas.showPopover();
+        top = true;
+      } catch (e) { canvas.removeAttribute('popover'); }
+    }
+    const L = { canvas: canvas, gl: null, U: null, dirty: true, blend: blend, top: top };
     canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); cancelAnimationFrame(raf); raf = 0; });
     canvas.addEventListener('webglcontextrestored', function () { if (initGL(L)) { resize(); wake(); } });
     return L;
+  }
+  // put the canvases back on top of the top layer: blend first, normal above it
+  function raise() {
+    for (let i = layers.length - 1; i >= 0; i--) {
+      const L = layers[i];
+      if (!L.top) continue;
+      try { L.canvas.hidePopover(); L.canvas.showPopover(); } catch (e) { /* not connected */ }
+    }
+    wake();
+  }
+  function onToggle(e) {
+    const t = e.target;
+    if (!t || t.nodeType !== 1 || t.hasAttribute('data-ink-cursor') || t.tagName === 'DETAILS') return;
+    if (e.newState === 'open') raise();
   }
   function resize() {
     if (!layers.length) return;
@@ -775,6 +804,7 @@
   }
 
   function live(rec) {
+    if (rec.hidden) return false;
     if (ptScope) return rec.scope === ptScope;
     if (rec.scope || rec.kind === 'ground' || rec.kind === 'edge' || rec.kind === 'panel') return true;
     const sc = map.scopes;
@@ -787,7 +817,6 @@
   // the part of the map the ink can see from where the pointer is (cached until the pointer changes layer, the
   // page scrolls or the map changes)
   function viewOf() {
-    if (!ptScope && !map.scopes.length) return map;
     const key = viewGen + ':' + SX + ':' + SY + ':' + map.solids.length;
     if (key === viewKey && viewCache) return viewCache;
     viewKey = key;
@@ -797,23 +826,35 @@
   function frame(now) {
     raf = 0;
     frameNo++;
-    const V = viewOf();
+    let V = viewOf();
     // things move (carousels, the card wheel, reveals): what is near the pointer is measured again now, at most
     // 90 boxes a frame. The rest of the map keeps its idle re-measure.
     if (pin && !doc.hidden) {
       const reach = BOX * 0.5;
       let budget = 90;
-      const lists = [V.solids, V.masks, V.hugs];
+      const lists = [map.solids, map.masks, map.hugs];
       for (let li = 0; li < 3 && budget > 0; li++) {
         const L = lists[li];
         for (let q = 0; q < L.length && budget > 0; q++) {
           const rec = L[q];
-          if (!within(rec, px, py, reach) || !rec.el.isConnected) continue;
-          place(rec, rectOf(rec));
+          if (!within(rec, px, py, reach) || !rec.el.isConnected || (ptScope ? rec.scope !== ptScope : false)) continue;
+          const rr = rectOf(rec);
+          place(rec, rr);
           if (rec.chain) orient(rec);
+          if (now - (rec.seenAt || 0) > 350) {
+            rec.seenAt = now + (budget % 7) * 12;
+            const mx = (rr.left + rr.right) / 2, my = (rr.top + rr.bottom) / 2;
+            let hid = false;
+            if (mx > 0 && my > 0 && mx < W && my < H) {
+              const t = doc.elementFromPoint(mx, my);
+              hid = !!t && t !== rec.el && !rec.el.contains(t) && !t.contains(rec.el);
+            }
+            if (hid !== !!rec.hidden) { rec.hidden = hid; viewGen++; }
+          }
           budget--;
         }
       }
+      V = viewOf();
     }
     const t0 = performance.now();
     const dt = Math.min(0.05, Math.max(0.001, (now - last) / 1000));
@@ -821,9 +862,10 @@
     let i;
 
     // ---- what is under the pointer (cached map only)
-    let off = !pin || kb || modal;
+    let off = !pin || kb || (modal && !(layers[0] && layers[0].top));
     let strengthT = 1, hugTarget = null, absorbT = null;
     if (!off) for (i = 0; i < V.off.length; i++) if (within(V.off[i], px, py, 0)) { off = true; break; }
+    if (off !== away) { away = off; if (off) root.setAttribute('data-ink-away', ''); else root.removeAttribute('data-ink-away'); }
     if (!off) {
       for (i = 0; i < V.on.length; i++) if (within(V.on[i], px, py, 0)) strengthT = 1.35;
       let best = Infinity;
@@ -1140,6 +1182,20 @@
     lastInk = headInk; lastS = sCount; lastM = [mCount, mRegular, arts.length];
     if (headPol !== blendPol && layers[1]) { blendPol = headPol; layers[1].canvas.style.mixBlendMode = headPol ? 'lighten' : 'darken'; }
 
+    // ---- click dot
+    {
+      const want = !off && clickable && O.dot > 0 ? 1 : 0;
+      const wD = 30, zD = 0.5;
+      for (let st = 0; st < steps; st++) { dotV += (wD * wD * (want - dotA) - 2 * zD * wD * dotV) * h; dotA += dotV * h; }
+      if (want) {
+        // on a filled control: what reads on its fill; anywhere else: what reads on the ink
+        const under = absorbT && absorbT.mode === 1 ? absorbT.col : (tintA > 0.5 ? tintC : headInk);
+        const c = inkFor(under), kd = dotA < 0.08 ? 1 : 1 - Math.exp(-18 * dt);
+        dotC[0] += (c[0] - dotC[0]) * kd; dotC[1] += (c[1] - dotC[1]) * kd; dotC[2] += (c[2] - dotC[2]) * kd;
+      }
+      if (Math.abs(dotA - want) > 0.004 || Math.abs(dotV) > 0.02) dotBusy = true; else { dotBusy = false; dotA = want; dotV = 0; }
+    }
+
     // ---- draw
     const visible = mass > 0.001 && bx1 > bx0 && by1 > by0;
     if (visible) for (i = 0; i < MAXN; i++) { const o5 = i * 4; bufN[o5] = nx[i]; bufN[o5 + 1] = ny[i]; bufN[o5 + 2] = nr[i]; bufN[o5 + 3] = 0; }
@@ -1162,6 +1218,8 @@
       gl.uniform4f(U.uView, ch, DPR, org, orgY);
       gl.uniform4f(U.uHead, hx, hy, hrx, hry);
       gl.uniform4f(U.uLead, llx, lly, rh * 0.74, Math.max(3, R * 0.4));
+      gl.uniform4f(U.uDotP, px, py, Math.max(0, dotA) * Math.max(4, R * 0.24) * O.dot * (1 + pulse * 2.2), 0);
+      gl.uniform4f(U.uDotC, dotC[0], dotC[1], dotC[2], sat(dotA * 1.4));
       gl.uniform4f(U.uHeadX, dirC, dirS, Math.max(0, Math.min(1.1, hugT)), hugR);
       gl.uniform4f(U.uHug, hug[0], hug[1], hug[2], hug[3]);
       gl.uniform4fv(U.uNode, bufN); gl.uniform4fv(U.uDrop, bufD);
@@ -1191,7 +1249,7 @@
     // ---- sleep when nothing moves
     let settled = Math.abs(mass - massT) < 0.002 && Math.abs(tx - hx) < 0.3 && Math.abs(ty - hy) < 0.3 && Math.abs(px - llx) < 0.3 && Math.abs(py - lly) < 0.3 && sp < 4 &&
       Math.abs(pulse) < 0.002 && Math.abs(pulseV) < 0.02 && Math.abs(hugT - (hugTarget ? 1 : 0)) < 0.003 && Math.abs(hugV) < 0.02 &&
-      Math.abs(strength - strengthT) < 0.003 && Math.abs(elong) < 0.003 && Math.abs(elongV) < 0.02 && tailL < 0.5 && life < 0.01 && settledSkin && Math.abs(tintA - tintT) < 0.01 && !dropsAlive;
+      Math.abs(strength - strengthT) < 0.003 && Math.abs(elong) < 0.003 && Math.abs(elongV) < 0.02 && tailL < 0.5 && life < 0.01 && settledSkin && Math.abs(tintA - tintT) < 0.01 && !dropsAlive && !dotBusy;
     stats.why = settled ? '' : [Math.abs(mass - massT) < 0.002, Math.abs(tx - hx) < 0.3 && Math.abs(ty - hy) < 0.3, sp < 4, Math.abs(pulse) < 0.002 && Math.abs(pulseV) < 0.02, Math.abs(hugT - (hugTarget ? 1 : 0)) < 0.003 && Math.abs(hugV) < 0.02, Math.abs(strength - strengthT) < 0.003, Math.abs(elong) < 0.003 && Math.abs(elongV) < 0.02, tailL < 0.5, life < 0.01, settledSkin, Math.abs(tintA - tintT) < 0.01, !dropsAlive].map(function (v) { return v ? 1 : 0; }).join('');
     if (mass === 0 && massT === 0) settled = true;
     stats.frames++;
@@ -1221,6 +1279,8 @@
     let sc = null;
     for (let n = e.target; n && n.nodeType === 1; n = n.parentElement) if (scopeSet.has(n)) { sc = n; break; }
     if (sc !== ptScope) { ptScope = sc; viewGen++; }
+    const tg = e.target;
+    clickable = !!(tg && tg.closest && tg.closest('a[href],button,summary,select,label,[role="button"],[role="link"],[role="tab"],[data-estimate-open],input:not([type="text"]):not([type="email"]):not([type="tel"]):not([type="search"]):not([type="number"]):not([type="password"]):not([type="url"])')) && !(tg.closest('[disabled],[aria-disabled="true"]'));
     if (!pin && mass < 0.01) snapTo(px, py);
     lastMove = performance.now();
     if (!pin) { pin = true; if (dirty) scheduleBuild(0); }
@@ -1248,7 +1308,7 @@
   // (cream on its way to blue) is what made the ink go pale for a moment.
   function hoverFill(rec) {
     if (rec.fills && rec.fillCol && !rec.temp && rec.el.matches(':hover')) {
-      rec.temp = { el: rec.el, fixed: rec.fixed, kind: 'solid', mode: 1, ring: 0, radius: rec.fillRad || 0, col: rec.fillCol, temp: true, owner: rec, scope: rec.scope };
+      rec.temp = { el: rec.el, fixed: rec.fixed, kind: 'solid', mode: 1, ring: 0, radius: rec.fillRad || 0, col: rec.fillCol, temp: true, inter: true, owner: rec, scope: rec.scope };
       map.solids.push(rec.temp); map.all.push(rec.temp); temps.push(rec.temp);
       place(rec.temp, rec.el.getBoundingClientRect());
       rec.lastBg = null;
@@ -1265,7 +1325,7 @@
       if (filled) {
         const r = rec.el.getBoundingClientRect();
         if (!rec.temp) {
-          rec.temp = { el: rec.el, fixed: rec.fixed, kind: 'solid', mode: 1, ring: 0, radius: 0, col: bg, temp: true, owner: rec, scope: rec.scope };
+          rec.temp = { el: rec.el, fixed: rec.fixed, kind: 'solid', mode: 1, ring: 0, radius: 0, col: bg, temp: true, inter: true, owner: rec, scope: rec.scope };
           map.solids.push(rec.temp); map.all.push(rec.temp); temps.push(rec.temp);
         }
         rec.fills = true; rec.fillCol = bg; rec.fillRad = radiusOf(cs, r);
@@ -1317,7 +1377,7 @@
     root.setAttribute('data-ink-cursor', 'on');
     if (HIDE_NATIVE) {
       styleEl = doc.createElement('style');
-      styleEl.textContent = 'html[data-ink-cursor="on"],html[data-ink-cursor="on"] *{cursor:none}';
+      styleEl.textContent = 'html[data-ink-cursor="on"]:not([data-ink-away]),html[data-ink-cursor="on"]:not([data-ink-away]) *{cursor:none}';
       doc.head.appendChild(styleEl);
     }
     resize();
@@ -1330,6 +1390,7 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onResize, { passive: true });
     doc.addEventListener('visibilitychange', onVis);
+    doc.addEventListener('toggle', onToggle, true);
     mo = new MutationObserver(function (list) {
       for (let i = 0; i < list.length; i++) {
         const r = list[i];
@@ -1340,7 +1401,7 @@
           for (let j = 0; ours && j < r.removedNodes.length; j++) ours = r.removedNodes[j].nodeType === 1 && r.removedNodes[j].hasAttribute('data-ink-cursor');
           if (ours) continue;
         }
-        if (r.attributeName === 'open') modal = !!doc.querySelector('dialog[open]');
+        if (r.attributeName === 'open') { modal = !!doc.querySelector('dialog[open]'); if (modal) raise(); }
         scheduleBuild(300);
         clearTimeout(lateBuild); lateBuild = setTimeout(function () { scheduleBuild(0); }, 1600);
         wake();
@@ -1368,6 +1429,7 @@
     window.removeEventListener('scroll', onScroll);
     window.removeEventListener('resize', onResize);
     doc.removeEventListener('visibilitychange', onVis);
+    doc.removeEventListener('toggle', onToggle, true);
     if (mo) mo.disconnect();
     if (ro) ro.disconnect();
     layers.forEach(function (L) {
@@ -1378,7 +1440,7 @@
     layers = [];
     if (styleEl) { styleEl.remove(); styleEl = null; }
     pin = false; mass = 0; skin.clear();
-    root.removeAttribute('data-ink-cursor');
+    root.removeAttribute('data-ink-cursor'); root.removeAttribute('data-ink-away'); away = false;
   }
   function sync() { const a = allowed(); if (a && !on) start(); else if (!a && on) stop(); }
   function listen(mq) { if (mq.addEventListener) mq.addEventListener('change', sync); else if (mq.addListener) mq.addListener(sync); }
@@ -1391,7 +1453,7 @@
     resize: function () { if (on) { resize(); wake(); } },
     native: function (hide) {
       if (styleEl) { styleEl.remove(); styleEl = null; }
-      if (hide) { styleEl = doc.createElement('style'); styleEl.textContent = 'html[data-ink-cursor="on"],html[data-ink-cursor="on"] *{cursor:none}'; doc.head.appendChild(styleEl); }
+      if (hide) { styleEl = doc.createElement('style'); styleEl.textContent = 'html[data-ink-cursor="on"]:not([data-ink-away]),html[data-ink-cursor="on"]:not([data-ink-away]) *{cursor:none}'; doc.head.appendChild(styleEl); }
     },
     start: function () { root.removeAttribute('data-ink'); sync(); },
     stop: function () { root.setAttribute('data-ink', 'off'); },

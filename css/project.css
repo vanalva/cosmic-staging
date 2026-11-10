@@ -271,6 +271,20 @@
     align-items: center;
     column-gap: var(--_spacing---step--5);
 }
+/* .is-stacked (js/controls.js "footer fit", desktop only, mobile pass 2026-11-10): below ~1300px the one-row footer took
+   the logo to 0 width and pushed the socials off the page; it takes the tablet layout instead (logo + socials, then
+   the links centred on their own row). 1920 and 2560 keep the drawn row. */
+.c7177_root.is-stacked {
+    flex-wrap: wrap;
+}
+.c7177_nav.is-stacked {
+    order: 3;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: var(--_spacing---step--6);
+    margin-left: 0;
+}
 .c7177_social-link {
     display: block;
     line-height: 0;
@@ -1147,6 +1161,25 @@
     color: var(--_theme---accent--main);
     white-space: pre-line;
 }
+/* cb5b1 variants (mobile pass 2026-11-10): .is-fill fills its grid cell instead of sizing to its text; .is-wide spans
+   a 2-column grid row at <=767 (the odd last card). Phones and tablets get readable leading on the label and body. */
+.cb5b1_root.is-fill {
+    width: auto;
+}
+@media (max-width: 991px) {
+.f-text-h6.cb5b1_label {
+    line-height: var(--_typography---leading--tight);
+}
+.f-text-small.cb5b1_body {
+    line-height: var(--_typography---leading--snug);
+}
+}
+@media (max-width: 767px) {
+.cb5b1_root.is-wide {
+    grid-column-start: 1;
+    grid-column-end: -1;
+}
+}
 /* site component cbd83 */
 .cbd83_root {
     position: relative;
@@ -1594,64 +1627,102 @@
 .cdd6d_contact.is-wrapped {
     margin-left: 0;
 }
+/* phones and tablets (mobile pass 2026-11-10): a deliberate stacked composition instead of the squeezed drawn row.
+   991: a 2 x 2 grid, lockup | intro on row 1, an ink rule across, then contact | form; the drawn indents go.
+   767: one column in reading order. The desktop row (>= 992, incl. .is-wrapped from controls.js) is untouched. */
+.cdd6d_break {
+    display: block;
+}
 @media (max-width: 991px) {
 .cdd6d_root {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--_spacing---step--7);
     row-gap: var(--_spacing---step--6);
+    align-items: start;
     padding-left: var(--_spacing---step--6);
     padding-right: var(--_spacing---step--6);
 }
-.cdd6d_divider {
+/* the drawn chrome is stretched (preserveAspectRatio none), which notches the corners of a tall band; the root
+   already paints the same fill with the radius role */
+.cdd6d_chrome {
     display: none;
-}
-.cdd6d_contact {
-    flex-shrink: 1;
-    min-width: 0;
-    margin-left: var(--_spacing---step--6);
-}
-.cdd6d_form {
-    flex-basis: auto;
-    min-width: 0;
-    max-width: 100%;
-    margin-left: 0;
-    padding-left: 0;
-}
-}
-@media (max-width: 767px) {
-.cdd6d_root {
-    flex-direction: column;
-    align-items: stretch;
 }
 .cdd6d_lockup {
     margin-top: 0;
+}
+.f-text-h2.cdd6d_title {
+    line-height: var(--_typography---leading--display);
+}
+.cdd6d_art {
+    margin-top: var(--_spacing---step--1);
 }
 .cdd6d_intro {
     max-width: none;
     margin-left: 0;
     margin-bottom: 0;
 }
-.cdd6d_contact {
-    margin-top: 0;
-    margin-left: 0;
+.f-text-small.cdd6d_body {
+    line-height: var(--_typography---leading--normal);
 }
-.f-text-h2.cdd6d_title {
-    white-space: normal;
+.f-text-small.cdd6d_measure {
+    max-width: none;
 }
 .f-text-small.cdd6d_indent {
     margin-left: 0;
 }
+.cdd6d_break {
+    display: inline;
+}
+/* the drawn vertical divider becomes a rule across the band, between the two halves */
+.cdd6d_divider {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    width: auto;
+    height: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    border-left-width: 0;
+    border-top-width: var(--_border---thick);
+    border-top-style: solid;
+    border-top-color: var(--_palette---neutral--900);
+}
+.cdd6d_contact {
+    min-width: 0;
+    margin-top: 0;
+    margin-left: 0;
+}
 .cdd6d_form {
-    flex-shrink: 0;
+    box-sizing: border-box;
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    row-gap: var(--_spacing---step--3);
+    margin-left: 0;
+    padding-left: 0;
+}
+.cdd6d_row {
+    column-gap: var(--_spacing---step--3);
+}
+}
+@media (max-width: 767px) {
+.cdd6d_root {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--_spacing---step--5);
+}
+.f-text-h2.cdd6d_title {
+    white-space: normal;
 }
 }
 @media (max-width: 478px) {
 .cdd6d_root {
-    padding-left: var(--_spacing---step--3);
-    padding-right: var(--_spacing---step--3);
+    padding-left: var(--_spacing---step--4);
+    padding-right: var(--_spacing---step--4);
 }
 .cdd6d_row {
     flex-wrap: wrap;
-    row-gap: 13px;
+    row-gap: var(--_spacing---step--3);
 }
 .cdd6d_grow {
     flex-basis: 100%;
@@ -2368,55 +2439,98 @@
     padding-right: var(--_spacing---page-margin);
 }
 }
-@media (max-width: 478px) {
+/* tablet + phone (mobile pass 2026-11-10): the drawn overlap is kept for desktop only. Below 992 the five script words
+   stack in reading order, alternating left / right at their drawn relative widths, with no overlap, then the three
+   photos as a row (3-up at 991, 2 + one wide at <=767). Grid rows place them; the images are decorative (alt="")
+   inside one role="img" block, so the visual order does not change what a screen reader hears. */
+@media (max-width: 991px) {
 .f-position-relative.home-illustration_comp {
-    aspect-ratio: 100 / 129;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--_spacing---step--4);
+    row-gap: var(--_spacing---step--1);
+    aspect-ratio: auto;
+}
+.f-position-absolute.home-illustration_art {
+    position: static;
+    grid-column-start: 1;
+    grid-column-end: -1;
+    height: auto;
+}
+.f-position-absolute.home-illustration_frame {
+    position: static;
+    width: auto;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    margin-top: var(--_spacing---step--5);
 }
 .home-illustration_art.home-illustration_commercial {
-    left: 0%;
-    width: 92%;
-    height: 11.155%;
+    grid-row-start: 1;
+    justify-self: start;
+    width: 56%;
 }
 .home-illustration_art.home-illustration_build {
-    left: 43.5%;
-    top: 8.527%;
-    width: 56.5%;
-    height: 13.124%;
+    grid-row-start: 2;
+    justify-self: end;
+    width: 34%;
 }
 .home-illustration_art.home-illustration_finishes {
-    left: 4%;
-    top: 19.38%;
-    width: 61.5%;
-    height: 15.961%;
+    grid-row-start: 3;
+    justify-self: start;
+    width: 38%;
 }
 .home-illustration_art.home-illustration_painting {
-    left: 30%;
-    top: 31.783%;
-    width: 66.87%;
-    height: 15.364%;
+    grid-row-start: 4;
+    justify-self: end;
+    width: 41%;
 }
 .home-illustration_art.home-illustration_outdoors {
-    left: 4%;
-    top: 43.411%;
-    width: 74.12%;
-    height: 12.016%;
+    grid-row-start: 5;
+    justify-self: start;
+    width: 45%;
 }
 .home-illustration_frame.home-illustration_crew {
-    top: 54.264%;
-    width: 54%;
-    height: 24.287%;
+    grid-row-start: 6;
+    grid-column-start: 1;
 }
 .home-illustration_frame.home-illustration_hoodie {
-    left: 58%;
-    top: 55.814%;
-    width: 42%;
-    height: 34.31%;
+    grid-row-start: 6;
+    grid-column-start: 2;
 }
 .home-illustration_frame.home-illustration_wall {
-    left: 14%;
-    top: 75.969%;
-    width: 56%;
-    height: 23.814%;
+    grid-row-start: 6;
+    grid-column-start: 3;
+}
+}
+@media (max-width: 767px) {
+.f-position-relative.home-illustration_comp {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: var(--_spacing---step--3);
+}
+.f-position-absolute.home-illustration_frame {
+    aspect-ratio: 1 / 1;
+}
+.home-illustration_art.home-illustration_commercial {
+    width: 92%;
+}
+.home-illustration_art.home-illustration_build {
+    width: 56.5%;
+}
+.home-illustration_art.home-illustration_finishes {
+    width: 61.5%;
+}
+.home-illustration_art.home-illustration_painting {
+    width: 66.9%;
+}
+.home-illustration_art.home-illustration_outdoors {
+    width: 74.1%;
+}
+.home-illustration_frame.home-illustration_wall {
+    grid-row-start: 7;
+    grid-column-start: 1;
+    grid-column-end: -1;
+    aspect-ratio: 16 / 9;
+    margin-top: 0;
 }
 }
 .home-sec5_section {
@@ -2493,6 +2607,11 @@
 .home-sec5_stats {
     justify-content: flex-start;
 }
+/* mobile pass: the three stat cards share the row as equal cells (they were 160 px wide, left-aligned) */
+.f-flex.home-sec5_stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
 }
 @media (max-width: 767px) {
 .f-text-h4.home-sec5_heading {
@@ -2503,6 +2622,9 @@
 }
 .home-sec5_stats {
     flex-wrap: wrap;
+}
+.f-flex.home-sec5_stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 }
 @media (max-width: 478px) {
@@ -3350,6 +3472,15 @@
     padding-bottom: calc(var(--_spacing---step--8) + var(--_spacing---step--2));
     padding-left: var(--_spacing---step--5);
 }
+@media (max-width: 767px) {
+/* mobile pass 2026-11-10: from 767 the header sits where Home's does (step--2 inset, as home-header_section); it
+   only did from 478, so 479-767 sat 13 px lower than Home */
+.diy-header_section {
+    padding-top: var(--_spacing---step--2);
+    padding-right: var(--_spacing---step--2);
+    padding-left: var(--_spacing---step--2);
+}
+}
 /* the navbar sits exactly like Home's: no side padding around cbd83_root (was 1.5 % + max(0, 50% - 58rem), 2026-11-10) */
 .diy-header_bar {
     padding-right: 0;
@@ -3826,6 +3957,15 @@
     padding-right: var(--_spacing---step--5);
     padding-bottom: calc(var(--_spacing---step--8) + var(--_spacing---step--2));
     padding-left: var(--_spacing---step--5);
+}
+@media (max-width: 767px) {
+/* mobile pass 2026-11-10: from 767 the header sits where Home's does (step--2 inset, as home-header_section); it
+   only did from 478, so 479-767 sat 13 px lower than Home */
+.about-header_section {
+    padding-top: var(--_spacing---step--2);
+    padding-right: var(--_spacing---step--2);
+    padding-left: var(--_spacing---step--2);
+}
 }
 .about-header_bar {
     display: grid;
@@ -9810,10 +9950,31 @@
     width: var(--_component---logo--md);
     height: auto;
 }
+/* .is-aligned (js/estimate.js alignLogo): the logo takes the header logo's box, measured from cbd83 on open; the head
+   keeps its rows at the top (the close button does not move) and grows to clear the logo */
+.estimate_logo.is-aligned {
+    position: absolute;
+    top: var(--estimate-logo-top);
+    left: var(--estimate-logo-left);
+    z-index: 1;
+}
+.estimate_logo_art.is-aligned {
+    width: var(--estimate-logo-width);
+}
+.estimate_head.is-aligned {
+    box-sizing: border-box;
+    /* the first column reaches at least the logo's right edge, so the centred progress never runs under it (992-1279) */
+    grid-template-columns: minmax(calc(var(--estimate-logo-left) + var(--estimate-logo-width) - var(--_spacing---step--7)), 1fr) minmax(0, var(--_spacing---container--sm)) minmax(0, 1fr);
+    min-height: calc(var(--estimate-logo-bottom) + var(--_spacing---step--4));
+    align-content: start;
+}
 .estimate_progress {
     display: flex;
     flex-direction: column;
     row-gap: var(--_spacing---step--2);
+    /* explicit cells (2026-11-10): the aligned logo leaves the grid flow, so progress and close keep their own cells */
+    grid-column-start: 2;
+    grid-row-start: 1;
 }
 .estimate_progress.is-hidden {
     visibility: hidden;
@@ -9837,6 +9998,8 @@
 .flwr_button_primary.cd421_root.estimate_close {
     display: inline-flex;
     align-items: center;
+    grid-column-start: 3;
+    grid-row-start: 1;
     justify-self: end;
     column-gap: var(--_spacing---step--2);
     cursor: pointer;
@@ -10749,6 +10912,15 @@
     grid-row-start: 2;
     grid-row-end: 3;
 }
+.flwr_button_primary.cd421_root.estimate_close {
+    grid-column-start: 2;
+    align-self: start;
+}
+/* the aligned logo is taller than the close button here: row 1 grows to clear it, so the progress row sits below */
+.estimate_head.is-aligned {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: minmax(calc(var(--estimate-logo-bottom) - var(--_spacing---step--5)), auto) auto;
+}
 .estimate_stage {
     padding-right: var(--_spacing---step--5);
     padding-left: var(--_spacing---step--5);
@@ -10786,6 +10958,9 @@
     padding-top: var(--_spacing---step--4);
     padding-right: var(--_spacing---step--4);
     padding-left: var(--_spacing---step--4);
+}
+.estimate_head.is-aligned {
+    grid-template-rows: minmax(calc(var(--estimate-logo-bottom) - var(--_spacing---step--4)), auto) auto;
 }
 .estimate_stage {
     padding-right: var(--_spacing---step--4);
@@ -11133,6 +11308,7 @@
     display: flex;
     flex-direction: column;
     row-gap: var(--_spacing---step--4);
+    scroll-snap-align: start; /* a card is one stop when its grid becomes a phone rail (mobile pass) */
     box-sizing: border-box;
     min-width: 0;
     padding-top: var(--_spacing---step--5);
@@ -12105,8 +12281,24 @@
     padding-right: var(--_spacing---step--4);
     padding-left: var(--_spacing---step--4);
 }
+/* mobile pass 2026-11-10: guides and packs become snap rails on phones (one card + a peek), as the project archive */
 .diy-guides_grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 84%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--_spacing---step--3);
+}
+.diy-packs_grid {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 84%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--_spacing---step--3);
 }
 .diy-finder_head {
     flex-direction: column;
@@ -13745,7 +13937,15 @@
     padding-top: var(--_spacing---step--3);
 }
 .guidemeta_root {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* mobile pass 2026-11-10: a wrapping row whose facts grow, so the short last row fills the width (was 3 + 2) */
+    display: flex;
+    flex-wrap: wrap;
+}
+.guidemeta_item {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: calc((100% - 2 * var(--_spacing---step--3)) / 3);
+    min-width: 0;
 }
 .guidenav_root {
     top: 0;
@@ -13811,7 +14011,21 @@
     scroll-margin-top: calc(var(--_spacing---step--8) * 2);
 }
 .related_list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* mobile pass 2026-11-10: a wrapping row of growing cards, 2 across, so an odd last card takes the full row
+       (4 = 2 + 2, 5 = 2 + 2 + 1 wide) instead of sitting alone; .related_item.is-third puts a 3-card set on one row */
+    display: flex;
+    flex-wrap: wrap;
+}
+.related_item {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: calc((100% - var(--_spacing---step--5)) / 2);
+    min-width: 0;
+}
+.related_item.is-third {
+    flex-basis: 0%;
 }
 .offer_root {
     grid-template-columns: minmax(0, 1fr);
@@ -13830,9 +14044,9 @@
 }
 @media (max-width: 767px) {
 .diy-guide_header {
-    padding-top: var(--_spacing---step--3);
-    padding-right: var(--_spacing---step--3);
-    padding-left: var(--_spacing---step--3);
+    padding-top: var(--_spacing---step--2);
+    padding-right: var(--_spacing---step--2);
+    padding-left: var(--_spacing---step--2);
 }
 .diy-guide_split {
     grid-template-columns: minmax(0, 1fr);
@@ -13944,6 +14158,7 @@
     padding-left: var(--_spacing---step--3);
 }
 .guidemeta_root {
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
     row-gap: 0;
 }
@@ -13980,6 +14195,7 @@
     margin-top: 0;
 }
 .related_list {
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
 }
 .supply_item {
@@ -14172,6 +14388,15 @@
     padding-right: var(--_spacing---step--5);
     padding-bottom: 0;
     padding-left: var(--_spacing---step--5);
+}
+@media (max-width: 767px) {
+/* mobile pass 2026-11-10: from 767 the header sits where Home's does (step--2 inset, as home-header_section); it
+   only did from 478, so 479-767 sat 13 px lower than Home */
+.club-header_section {
+    padding-top: var(--_spacing---step--2);
+    padding-right: var(--_spacing---step--2);
+    padding-left: var(--_spacing---step--2);
+}
 }
 
 /* ---------- bands, heads, shared bits ---------- */
@@ -16370,13 +16595,29 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, var(--_spacing---section--xl));
 }
 .club-member_grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* mobile pass 2026-11-10: 2 across, cards grow, so an odd last card takes the full row (was an orphan) */
+    display: flex;
+    flex-wrap: wrap;
+}
+.club-member_card {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: calc((100% - var(--_spacing---step--6)) / 2);
+    min-width: 0;
 }
 .club-member_card.is-wide {
     grid-column-start: span 2;
+    flex-basis: 100%;
 }
 .record_grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+}
+.record_card {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: calc((100% - var(--_spacing---step--6)) / 2);
+    min-width: 0;
 }
 .club-refer_grid {
     grid-template-columns: minmax(0, 1fr);
@@ -16400,9 +16641,9 @@
     padding-left: calc(var(--_spacing---step--3) + var(--_spacing---step--5));
 }
 .club-member_header {
-    padding-top: var(--_spacing---step--3);
-    padding-right: var(--_spacing---step--3);
-    padding-left: var(--_spacing---step--3);
+    padding-top: var(--_spacing---step--2);
+    padding-right: var(--_spacing---step--2);
+    padding-left: var(--_spacing---step--2);
 }
 .club-member_sample {
     grid-template-columns: auto minmax(0, 1fr);
@@ -16422,6 +16663,7 @@
     max-width: var(--_spacing---container--xs);
 }
 .club-member_grid {
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
 }
 .club-member_card.is-wide {
@@ -16452,6 +16694,7 @@
     display: none;
 }
 .record_grid {
+    display: grid;
     grid-template-columns: minmax(0, 1fr);
 }
 .club-member_rules {
@@ -16530,6 +16773,15 @@
     padding-right: var(--_spacing---step--5);
     padding-bottom: 0;
     padding-left: var(--_spacing---step--5);
+}
+@media (max-width: 767px) {
+/* mobile pass 2026-11-10: from 767 the header sits where Home's does (step--2 inset, as home-header_section); it
+   only did from 478, so 479-767 sat 13 px lower than Home */
+.site-header_section {
+    padding-top: var(--_spacing---step--2);
+    padding-right: var(--_spacing---step--2);
+    padding-left: var(--_spacing---step--2);
+}
 }
 
 /* ---------- bands, heads, shared bits ---------- */
@@ -16777,7 +17029,7 @@
     width: 100%;
     height: auto;
 }
-/* DOM order: head, photo, copy (the photo leads on phones); desktop puts the copy left of the photo */
+/* DOM order: head, copy, photo (mobile pass 2026-11-10: the actions come before the photo on phones); desktop puts the copy left of the photo */
 .site-hero_copy {
     grid-column-start: 1;
     grid-row-start: 2;
@@ -17440,12 +17692,17 @@
 .site-hero_head {
     grid-column-end: 2;
 }
+/* mobile pass 2026-11-10: below 992 the copy and its CTAs come before the photo, so the primary action is in the
+   first screen (it sat at y 927-1203 at 390); the photo follows the actions */
 .site-hero_media {
     grid-column-start: 1;
-    grid-row-start: 2;
+    grid-row-start: 3;
 }
 .site-hero_copy {
-    grid-row-start: 3;
+    grid-row-start: 2;
+}
+.f-text-lead.site-hero_lead {
+    line-height: var(--_typography---leading--normal);
 }
 .site-featured {
     grid-template-columns: minmax(0, 1fr);
@@ -17503,8 +17760,19 @@
 .site-kinds {
     grid-template-columns: minmax(0, 1fr);
 }
+/* mobile pass 2026-11-10: on phones the project cards are a snap rail, one card and a peek of the next (the archive
+   was 7 full cards, ~4,000 px); the filters and the count line above still apply (hidden cards leave the rail) */
 .site-grid {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 84%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--_spacing---step--3);
+}
+.site-grid_item {
+    scroll-snap-align: start;
 }
 .site-grid_item.is-wide {
     grid-column-end: span 1;
@@ -17770,7 +18038,7 @@
 /* ---------- breakpoints ---------- */
 @media (max-width: 991px) {
 .service-hero_media {
-    grid-row-start: 2;
+    grid-row-start: 3;
     grid-row-end: auto;
     align-self: auto;
 }
@@ -20503,6 +20771,8 @@
     display: inline-flex;
     align-items: center;
     min-height: var(--_component---target--min);
+    min-width: var(--_component---target--min);
+    justify-content: center;
     margin-top: 0;
     margin-right: 0;
     margin-bottom: 0;
@@ -20645,8 +20915,111 @@
 }
 }
 
-/* ==== touch targets, lead 2026-11-10: the three shared buttons and the c8a8e field reach the 44px target on phones (were 38-43px) ==== */
-@media (max-width: 478px) {
+/* ==== HOME MOTION (hero truck + cloud animation, mascot_ Arlo; Cosmic Animations session), merged 2026-11-10 ==== */
+/* home-motion (staging, lead 2026-11-10): the Home hero animation + interactive Arlo (Cosmic Animations session).
+   Temporary file while the mobile pass owns project.css; merge as block "HOME MOTION, merged" afterwards. */
+/* the truck's animated viewBox is padded 1.0695x for its bob; this returns it to the old size and position
+   (desktop rule; the media blocks only set left/width/height) */
+.home-header_truck {
+    transform: scale(1.0695);
+}
+
+/* ==== mascot_ (Arlo walking strip, components/mascot.html, js/mascot.js) — STAGING, lead merges into
+   project.css. Layout only; colour, type and the bubble come from tokens, arlo_line and cecf1_. ==== */
+.mascot_root {
+    --mascot-w: calc(var(--_spacing---section--xl) * 1.4);
+    position: relative;
+    width: 100%;
+    color: var(--_palette---core--seed);
+}
+.mascot_track {
+    position: relative;
+    width: 100%;
+    height: calc(var(--mascot-w) * 0.72 + var(--_spacing---step--4));
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.mascot_arlo {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: var(--mascot-w);
+    will-change: transform;
+}
+.mascot_hit {
+    display: block;
+    width: 100%;
+    aspect-ratio: 846 / 609;
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    background-color: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+.mascot_hit:focus-visible {
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: var(--_theme---border--accent);
+    outline-offset: 2px;
+    border-top-left-radius: var(--_radius---card);
+    border-top-right-radius: var(--_radius---card);
+    border-bottom-left-radius: var(--_radius---card);
+    border-bottom-right-radius: var(--_radius---card);
+}
+.mascot_stage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+.mascot_svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+/* the bubble is the Arlo line (arlo_line, arlo_name, arlo_text) placed over his head; square corner = tail */
+.arlo_line.mascot_bubble {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: calc(var(--mascot-w) * 0.72);
+    width: max-content;
+    max-width: var(--_spacing---container--sm);
+    z-index: 2;
+}
+.arlo_line.mascot_bubble.is-open {
+    display: flex;
+}
+.mascot_actions {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: var(--_spacing---step--2);
+    row-gap: var(--_spacing---step--2);
+    padding-top: var(--_spacing---step--1);
+}
+
+@media (max-width: 767px) {
+    .mascot_root {
+        --mascot-w: var(--_spacing---section--xl);
+    }
+    .arlo_line.mascot_bubble {
+        max-width: calc(100% - var(--_spacing---step--5));
+    }
+}
+
+/* ==== touch targets, lead 2026-11-10: the three shared buttons and the c8a8e field reach the 44px target on phones (were 38-43px);
+   from 767 since the mobile pass (phones in landscape are touch too, and the smaller phone type left 42 px buttons) ==== */
+@media (max-width: 767px) {
 .flwr_button_primary.cd421_root {
     min-height: var(--_component---target--min);
 }
@@ -20654,6 +21027,12 @@
     min-height: var(--_component---target--min);
 }
 .flwr_button_primary.cecf1_root {
+    min-height: var(--_component---target--min);
+}
+.flwr_button_secondary.c9676_root {
+    min-height: var(--_component---target--min);
+}
+.c8785_root {
     min-height: var(--_component---target--min);
 }
 .flwr_field_text.c8a8e_input {
