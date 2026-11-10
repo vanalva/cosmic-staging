@@ -194,12 +194,13 @@
   function planTo(target) {
     plan = [];
     stopping = false;
+    if (play && play.loop) play.pending = null; // a previous request still waiting for its frame is dropped
     var here = node, mid = null;
     if (typeof node === 'object') { // on an edge
       mid = node;
       var onward = path(mid.to, target === 'hop' ? 'walk' : target) || [];
       var backward = path(mid.from, target === 'hop' ? 'walk' : target) || [];
-      if (onward.length <= backward.length) { plan.push({ run: mid.clip, dir: mid.dir, to: mid.to }); here = mid.to; }
+      if (onward.length <= backward.length) { here = mid.to; } // let the current transition finish; arrive() takes the plan on
       else { plan.push({ run: mid.clip, dir: -mid.dir, to: mid.from, reverseInPlace: true }); here = mid.from; }
     }
     var steps = path(here, target === 'hop' ? 'walk' : target) || [];
@@ -222,7 +223,7 @@
       var c = clips[step.run], tw = c.inPt ? c.inPt.tw : 0;
       var go = function () { plan.shift(); cut(step.run, 0, c.inPt ? c.inPt.iou : 1); begin(step); };
       if (step.run === 'hop') { if (!play.pending) play.pending = { at: tw, then: go }; }
-      else if (!stopping || !stopping.then) { stopped = false; play.rate = 1; stopping = { at: tw, then: go }; }
+      else if (!stopping || !stopping.then) { stopped = false; play.rate = 1; stopping = { at: null, then: go }; } // any standing frame matches the transition's first frame
       return;
     }
     if (play && play.loop) { // an idle: leave at a frame that matches the pose
@@ -235,6 +236,7 @@
       return;
     }
     if (!play) { plan.shift(); cut(step.run, step.dir > 0 ? 0 : clips[step.run].dur - 0.0001, 1); begin(step); }
+    // otherwise a transition is playing: arrive() continues the plan when it ends
   }
 
   function begin(step) {
@@ -385,7 +387,7 @@
 
   /* ---- bubbles ---- */
   // slots around his head, in Arlo widths from his box's bottom-left (x right, y up)
-  var SLOTS = [[-0.32, 0.8], [0.08, 1.08], [0.52, 1.16], [0.98, 1.04], [1.34, 0.74]];
+  var SLOTS = [[-0.34, 0.76], [0.06, 1.1], [0.5, 0.86], [0.96, 1.14], [1.36, 0.8]];
   var jitter = [];
   function scatter() { jitter = SLOTS.map(function () { return [(Math.random() - 0.5) * 0.1, (Math.random() - 0.5) * 0.08]; }); }
 
