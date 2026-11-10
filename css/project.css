@@ -20989,6 +20989,15 @@
     }
 }
 
+/* ==== HERO MOTION (illustrated heroes animated like Home's; Cosmic Animations session), 2026-11-10 ==== */
+/* the animated viewBoxes are padded for the motion; these scales return the art to its old size and position */
+.diy-header_art {
+    transform: scale(1.0235);
+}
+.lost-hero_img {
+    transform: scale(1.0488);
+}
+
 /* ==== touch targets, lead 2026-11-10: the three shared buttons and the c8a8e field reach the 44px target on phones (were 38-43px);
    from 767 since the mobile pass (phones in landscape are touch too, and the smaller phone type left 42 px buttons) ==== */
 @media (max-width: 767px) {
